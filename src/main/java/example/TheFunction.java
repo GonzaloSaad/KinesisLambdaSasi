@@ -1,17 +1,18 @@
 package example;
 
 
+import example.modelcrew.FlightVO;
 import org.springframework.stereotype.Component;
 
 import java.util.function.Consumer;
 
 
 @Component("kinesisFunction")
-public class TheFunction implements Consumer<ObjectToProduce>{
+public class TheFunction implements Consumer<FlightVO>{
 
     @Override
-    public void accept(ObjectToProduce objectToConsume) {
+    public void accept(FlightVO flightVO) {
         System.out.println("Recieved!");
-        System.out.println(objectToConsume);
+        System.out.println(flightVO);
     }
 }

@@ -1,31 +1,31 @@
 package example;
 
+import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.events.KinesisEvent;
+import example.modelcrew.FlightVO;
 import org.springframework.cloud.function.adapter.aws.SpringBootKinesisEventHandler;
 
+import java.util.ArrayList;
+import java.util.List;
 
 
-//public class Handler implements RequestHandler<KinesisEvent, Void> {
-public class Handler extends SpringBootKinesisEventHandler<ObjectToProduce,Void> {
-
-
-   /* private static final String toAddress = "saad.gonzalo.ale@gmail.com";
-
+public class Handler extends SpringBootKinesisEventHandler<FlightVO,Void> {
     @Override
-    public Void handleRequest(KinesisEvent event, Context context) {
-        context.getLogger().log("Inside Lambda....\n");
-        StringBuilder sb = new StringBuilder("Hello Prone from lambda and kinesis! \n");
+    public List<Void> handleRequest(KinesisEvent event, Context context) {
 
-        int record = 1;
+        List<Void> results = new ArrayList<>();
 
-        for (KinesisEvent.KinesisEventRecord e: event.getRecords()){
-            sb.append("Record: ").append(record).append("\n");
-            sb.append("Region: ").append(e.getAwsRegion()).append("\n");
-            sb.append("Data: ").append(e.getKinesis().getData());
-            record++;
+        try {
+            results = super.handleRequest(event, context);
+            context.getLogger().log("Success.\n");
+        } catch (Exception e) {
+            context.getLogger().log("Error: " + e.getMessage() + "\n");
+            context.getLogger().log("Cause: " + e.getCause() + "\n");
+            e.printStackTrace();
         }
 
-        context.getLogger().log(sb.toString());
+        return results;
+    }
 
-        return null;
-    }*/
+
 }
